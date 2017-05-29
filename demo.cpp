@@ -1,78 +1,78 @@
-#include "Player.hpp"
+#include <iostream>
+#include "Card.hpp"
 #include "Dealer.hpp"
-#include "Setup.hpp"
+#include "Deck.hpp"
+#include "Hand.hpp"
+#include "Player.hpp"
 
 const int MINIMUM_BET = 10;
 
 int main() {
-	startup();
 
-	auto player1 = new Player();
-	auto dealer = new Dealer();
+	Player * player1 = new Player();
+	Dealer * dealer = new Dealer();
 
 	player1->buyIn(500);
+
+	int _round = 0;
 	
 	while(player1->cashValue() > MINIMUM_BET) {
+		_rount++;
+		std::cout << "ROUND : " << _round << std::endl;
 		int pot = player1->bet(MINIMUM_BET);
 
 		dealer->dealToPlayer(player1);
-		dealer->dealToPlayer(dealer);
+		dealer->dealToSelf();
 		dealer->dealToPlayer(player1);
-		dealer->dealToPlayer(dealer);
-		char dealersFaceUp = dealer->faceUp();
+		dealer->dealToSelf();
 
-		mvaddstr(5, 44, 'DEALER');
-		mvaddstr(6, 44, '?' + dealersFaceUp);
+		int upCardValue = dealer->upCardValue()
 
-		mvaddstr(8, 44, 'PLAYER 1');
-		mvaddstr(8, 30, player1->cashStr());
-		mvaddstr(9, 44, player1->hand());
+		std::cout << "Dealers upCard : " << dealer->upCard() << std::endl;
+		std::cout << "Player 1 cards : " << player1->hand() << std::endl;
+		std::cout << "Player 1 cash  : " << player1->cashValue() << std::endl;
 
 		//  player hits 1st
-		while(player1->hit(dealersFaceUp)) {
+		while(player1->hit(upCardValue)) {
 			dealer->dealToPlayer(player1);
-			mv(9, 0);
-			clrtoeol();
-			mvaddstr(9, 44, player1->hand());
+			std::cout << "Player 1 hits, hand : " << player1->hand() << std::endl;
 		}
-		// if player didn't bust the house shows hand 
-		if( ! player1->busted())
-			mv(6, 0);
-			clrtoeol();
-			mvaddstr(6, 44, dealer->hand());
-			while(dealer->hit()) {
-				dealer->dealToPlayer(dealer);
-				mv(6, 0);
-				clrtoeol();
-				mvaddstr(6, 44, dealer->hand());
+		// if player didn't bust, the dealer shows hand
+		if( ! player1->busted()) {
+			std::cout << "Player 1 holds.\n"
+			std::cout << "Dealer shows hand : " << dealer->hand() << std:endl;
+			while(dealer->hit(player1->handValue())) {
+				dealer->dealToSelf();
+				std::cout < "Dealer hits, hand : " << dealer->hand()<< std::endl;
+			}
 		}
 
+		char winner = 'O';
 		// one busted but the other didn't
 		if(player1->busted() && ! dealer->busted()) {
-			auto winner = dealer;
-			mvaddstr(12, 44, 'PLAYER 1 BUSTED!')
+			std::cout << "Player 1 Busted -- Dealer Wins!\n\n"
+			winner = 'D';
 		}
 		else if(! player1->busted() && dealer->busted()) {
-			auto winner = player1;
-			mvaddstr(12, 44, 'DEALER BUSTED!')
+			std::cout << "Dealer Busted -- Player 1 Wins!\n\n"
+			winner = '1'
 		}
 		// if they both didn't bust, who won?
-		else if(! player1->busted() && ! dealer->busted() && dealer->handValue() > player1->handValue())
-			auto winner = dealer;
-		else if(! player1->busted() && ! dealer->busted() && player1->handValue() > dealer->handValue())
-			auto winner = player1;
+		else if(! player1->busted() && ! dealer->busted() && dealer->handValue() > player1->handValue()) {
+			std::cout << "Dealer Wins!\n\n"
+			winner = 'D';
+		}
+		else if(! player1->busted() && ! dealer->busted() && player1->handValue() > dealer->handValue()) {
+			std::cout << "Player 1 Wins!\n\n"
+			winner = '1';
+		}
 		else
-			// it was a draw!
-			// money back, continue...
-		if(winner == player1) {
-				mvaddstr(13, 44, 'PLAYER 1 WINS!');
+			std::cout << "Draw!\n\n"
+
+		if(winner == '1') {
 				player1->collectWinnings(pot * 2);
 		}
-		else if(winner = dealer) {
-				mvaddstr(13, 44, 'DEALER WINS!');
-		}
-		else {
-				mvaddstr(13, 44, 'DRAW');
+		if(winner == 'O') {
 				player->collectWinnings(pot);
 		}
 
@@ -86,6 +86,5 @@ int main() {
 			dealer->makeFreshStack();
 	}
 
-	terminate();
 	return 0;
 };

@@ -13,20 +13,16 @@ const int SHUFFLE_AMOUNT = 5;
 class Dealer: public Player
 {
 	public:
-		Dealer();
-		void shuffle();
+		Dealer() { _hand = new Hand(); deck = new Deck(); }
+		~Dealer() {}
 		void dealToPlayer(Player * player);
-		char & faceUp() { return hand[2]->value(); }
-		bool hit();
-		bool deckIsGood() { return cardStack.size() > _shuffleLimit; }
-		void makeFreshStack() { cardStack = freshStack; }
+		void dealToSelf();
+		std::string upCard() { return _hand->upCard(); }
+		bool hit(int opponentCardsValue);
+		bool deckIsGood() { return deck->isGood(); }
 	private:
-		Card _faceUp;
-		int _shuffleLimit;
-		std::vector<Card *> dealerCards, freshCards;
-		std::stack<Card *> cardStack, freshStack;
-		void initDealerCards();
-		void initDealerStacks();
+		Hand * _hand;
+		Deck * deck;
 };
 
 #endif
