@@ -1,10 +1,24 @@
 #include "Card.hpp"
 
-Card & Card::operator = (const Card & other)
-{
-	if (this == &other)
-		return * this;
-	_value = other._value;
-	_suit = other._suit;
-	return * this;
+int Card::value() const {
+	int v = 0; // face down card is 0
+	if(isFaceUp){
+		v = rank;
+		if(v > 10)
+			v = 10;
+	}
+	return v;
+}
+
+ostream & operator << (ostream & os, const Card & card) {
+	const string ranks[] = { "0", "A", "2", "3", "4", "5", "6", "7", "8", "9", 
+                            "10", "J", "Q", "K" };
+    const string suits[] = { "C", "D", "H", "S" };
+
+	if(card.isFaceUp)
+		os << ranks[card.rank] << suits[card.suit];
+	else
+		os << "XX";
+	
+	return os;
 }

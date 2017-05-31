@@ -1,19 +1,19 @@
 #ifndef _CARD_HPP
 #define _CARD_HPP
 
-#include <iostream>
-#include <fstream>
-
 class Card
 {
-	public:
-		Card(char s, char v): _suit(s), _value(v) {}
-		~Card () {}
-		Card & operator = (const Card & other);
-		char suit() { return _suit; }
-		char value() { return _value; }
-	private:
-		char _suit, _value;
+public:
+	enum RANK { ACE = 1, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING };
+	enum SUIT { CLUBS, DIAMONDS, HEARTS, SPADES };
+	Card(RANK r, SUIT s, bool faceUp): rank(r), suit(s), isFaceUp(faceUp) {}
+	int value() const;
+	void flip() { isFaceUp = !(isFaceUp); }
+	friend ostream & operator << (ostream & os, const Card & card);
+private:
+	RANK rank;
+	SUIT suit;
+	bool isFaceUp;
 };
 
 #endif

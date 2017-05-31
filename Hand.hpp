@@ -6,19 +6,13 @@
 class Hand
 {
 public:
-	Hand() {}
-	~Hand() {}
-	void add(Card * card);
-	void clear()       { _hand.clear(); }
-	std::string hand() { return handStr; }
-	std::string upCard();
-	int value()		   { return _value; }
-	int upCardValue(); 
-private:
-	std::vector<Card *> _hand;
-	int _value;
-	std::string handStr;
-	int intCardValue(char v);//////////////////////////////////////////////
+	Hand() 				  { cards.reserve(10); }
+	virtual ~Hand() 	  { clear(); }
+	void add(Card * card) { cards.push_back(card); }
+	void clear();
+	int total() const;
+protected:
+	std::vector<Card *> cards;
 };
 
 #endif
