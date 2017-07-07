@@ -2,14 +2,17 @@
 
 void Deck::init() {
 	clear();
-	for(int s = Card::CLUBS; s <= Card::SPADES; ++s)
-		for(int r = Card::ACE; r <= Card::KING; ++r)
-			add(new Card(static_cast<Card::RANK>(r), static_cast<Card::SUIT>(s)));
+	for(int i = 0; i < NUM_DECKS; ++i)
+		for(int s = Card::CLUBS; s <= Card::SPADES; ++s)
+			for(int r = Card::ACE; r <= Card::KING; ++r)
+				add(new Card(static_cast<Card::RANK>(r), static_cast<Card::SUIT>(s), false));
 }
 
 void Deck::deal(Hand & hand) {
 	if(cards.size() > LIMIT) {
-		hand.add(cards.back());
+		Card * c = cards.back();
+		c->flip();
+		hand.add(c);
 		cards.pop_back();
 	}
 	else

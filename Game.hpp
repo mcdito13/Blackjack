@@ -7,10 +7,12 @@
 
 class Game
 {
-public:
-	Game() {}
-	virtual ~Game() {}
-	virtual void start() = 0;
-protected:
-	std::vector<Player *> players;
-}
+	public:
+		Game() {}
+		virtual ~Game() {}
+		virtual void start() = 0;
+	protected:
+		std::vector<Player *> players;
+};
+
+#endif

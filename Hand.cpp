@@ -1,12 +1,14 @@
 #include "Hand.hpp"
 
 void Hand::clear() {
-	vector<Card *>::iterator iter;
-	for(iter = cards.begin(); iter != cards.end(); ++iter) {
-		delete *iter;
-		*iter = nullptr;
+	if(cards.size() > 0) {
+		std::vector<Card *>::iterator iter;
+		for(iter = cards.begin(); iter != cards.end(); ++iter) {
+			delete *iter;
+			*iter = nullptr;
+		}
+		cards.clear(); 
 	}
-	cards.clear();
 }
 
 int Hand::total() const {
@@ -15,14 +17,14 @@ int Hand::total() const {
 
 	bool hasAce = false;
 	int total = 0;
-	std::vector<Card *> const_iterator iter;
+	std::vector<Card *>::const_iterator iter;
 
 	for(iter = cards.begin(); iter != cards.end(); ++iter) {
 		total += (*iter)->value();
 		if((*iter)->value() == Card::ACE)
 			hasAce = true;
 	}
-	
+
 	if(hasAce && total <= 11) // should we treat ace as 11?
 		total += 10; // 10 bc we already added 1 for ace
 

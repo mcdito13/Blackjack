@@ -5,14 +5,14 @@
 
 class Player : public GeneralPlayer
 {
-public:
-	Player(const string & n, int buyIn): GeneralPlayer(n), cash(buyIn) {}
-	virtual ~Player() {}
-	virtual bool isHitting() const { total() >= 17 ? STAY : HIT; }
-	void collect(int winnings) { cash += winnings; }
-	int bet(int amount) { cash -= amount; return amount; }
-private:
-	int cash, bet;
+	public:
+		Player(const std::string & n, int buyIn): GeneralPlayer(n), cash(buyIn) {}
+		virtual ~Player() {}
+		virtual bool isHitting() const;
+		void collect(int winnings)     { cash += winnings; }
+		int bet(int amount) 	       { cash -= amount; return amount; }
+	private:
+		int cash;
 };
 
 #endif

@@ -5,11 +5,11 @@
 
 class House : public GeneralPlayer
 {
-public:
-	House(): GeneralPlayer("House") {}
-	virtual ~House() {}
-	virtual bool isHitting() const { return total() <= 16; }
-	void flipUpCard() { !(cards.empty()) ? cards[0]->flip(); }
+	public:
+		House(): GeneralPlayer("House") {}
+		virtual ~House() {}
+		virtual bool isHitting() const { return total() <= 16; }
+		void flipUpCard();
 };
 
 #endif
