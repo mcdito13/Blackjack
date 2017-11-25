@@ -1,3 +1,3 @@
 # Blackjack
 
-The game of blackjack, written using OOP in C++ - with inheritance and polymorphism.
+An object-oriented implementation of blackjack, in C++.
